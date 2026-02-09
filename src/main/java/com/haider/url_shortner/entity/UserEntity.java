@@ -6,8 +6,8 @@ import jakarta.persistence.*;
 @Table(name = "users")
 public class UserEntity {
     @Id
-            @GeneratedValue(strategy = GenerationType.IDENTITY)
-    long id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    Long id;
     String username;
     String password;
     String role;

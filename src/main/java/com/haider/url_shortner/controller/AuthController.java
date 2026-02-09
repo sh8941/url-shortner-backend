@@ -7,17 +7,18 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-public class UserController {
+@RequestMapping("api/auth")
+public class AuthController {
     @Autowired
     private UserService userService;
 
-    @PostMapping("/user")
-    public UserDto createUser(@RequestBody UserEntity userEntity) {
+    @PostMapping("/register")
+    public UserDto registerUser(@RequestBody UserEntity userEntity) {
         return userService.addUser(userEntity);
     }
 
-    @GetMapping("user/{username}")
-    public UserDto getUser(@PathVariable String username){
-        return userService.getUserByUsername(username);
+    @PostMapping("/login")
+    public UserDto loginUser(@RequestBody UserEntity userEntity) {
+        return userService.getUserByUsername(userEntity.getUsername());
     }
 }
