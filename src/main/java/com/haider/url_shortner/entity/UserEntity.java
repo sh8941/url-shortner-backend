@@ -8,8 +8,13 @@ public class UserEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
+
+    @Column(unique = true,nullable = false)
     String username;
+
+    @Column(nullable = false)
     String password;
+
     String role;
 
     public long getId() {

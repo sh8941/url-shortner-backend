@@ -11,27 +11,27 @@ public class UrlEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(unique = true, nullable = true)
+    @Column(nullable = false, unique = true)
     private String shortCode;
 
     @Column(nullable = false)
     private String longUrl;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(optional = false ,fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = true)
-    private UserEntity user;
+    private UserEntity createdBy;
 
     private LocalDateTime createdAt = LocalDateTime.now();
 
     public UrlEntity() {
     }
 
-    public UrlEntity(Long id, String shortCode, String longUrl, UserEntity user, LocalDateTime createdAt) {
+    public UrlEntity(Long id, String shortCode, String longUrl, UserEntity createdBy, LocalDateTime createdAt) {
         this.id = id;
         this.shortCode = shortCode;
         this.longUrl = longUrl;
-        this.user = user;
-        this.createdAt = createdAt;
+        this.createdBy = createdBy;
+        this.createdAt = LocalDateTime.now();
     }
 
     public Long getId() {
@@ -59,12 +59,12 @@ public class UrlEntity {
         this.longUrl = longUrl;
     }
 
-    public UserEntity getUser() {
-        return user;
+    public UserEntity getCreatedBy() {
+        return createdBy;
     }
 
-    public void setUser(UserEntity user) {
-        this.user = user;
+    public void setCreatedBy(UserEntity createdBy) {
+        this.createdBy = createdBy;
     }
 
     public LocalDateTime getCreatedAt() {
@@ -72,6 +72,6 @@ public class UrlEntity {
     }
 
     public void setCreatedAt(LocalDateTime createdAt) {
-        this.createdAt = createdAt;
+        this.createdAt = LocalDateTime.now();
     }
 }

@@ -10,7 +10,7 @@ import java.util.Optional;
 @Repository
 public interface UrlRepo extends JpaRepository<UrlEntity, Long> {
     UrlEntity save(UrlEntity urlEntity);
-    List<UrlEntity> findAllByUserId(Long userId);
+    List<UrlEntity> findAllByCreatedBy(Long userId);
 
     Optional<UrlEntity> findByShortCode(String shortUrl);
 }
