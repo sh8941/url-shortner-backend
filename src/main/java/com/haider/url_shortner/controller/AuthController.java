@@ -1,24 +1,39 @@
 package com.haider.url_shortner.controller;
 
+import com.haider.url_shortner.Configuration.JwtUtil;
+import com.haider.url_shortner.dto.LoginRequest;
 import com.haider.url_shortner.dto.UserDto;
 import com.haider.url_shortner.entity.UserEntity;
 import com.haider.url_shortner.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("api/auth")
+@RequestMapping("/auth")
 public class AuthController {
-    @Autowired
-    private UserService userService;
 
-    @PostMapping("/register")
-    public UserDto registerUser(@RequestBody UserEntity userEntity) {
-        return userService.addUser(userEntity);
+    private final AuthenticationManager authenticationManager;
+    private final JwtUtil jwtUtil;
+
+    public AuthController(AuthenticationManager authenticationManager,
+                          JwtUtil jwtUtil) {
+        this.authenticationManager = authenticationManager;
+        this.jwtUtil = jwtUtil;
     }
 
     @PostMapping("/login")
-    public UserDto loginUser(@RequestBody UserEntity userEntity) {
-        return userService.getUserByUsername(userEntity.getUsername());
+    public String login(@RequestBody LoginRequest request) {
+
+        authenticationManager.authenticate(
+                new UsernamePasswordAuthenticationToken(
+                        request.getUsername(),
+                        request.getPassword()
+                )
+        );
+
+        return jwtUtil.generateToken(request.getUsername());
     }
 }
+
